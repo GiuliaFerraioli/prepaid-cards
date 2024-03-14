@@ -9,44 +9,51 @@ public class CardSubmission : MonoBehaviour
 {
     public TMP_InputField cardCodeInput;
     public TMP_InputField amountInput;
-    public TMP_InputField notesInput;
+    public TMP_InputField fromInput; // Added
+    public TMP_InputField toInput; // Added
     public TextMeshProUGUI errorText;
-    private void Start()
-    {
-        // Initialize your input fields or other setup if needed
-    }
+    public GameObject MainMenu;
+    public GameObject RegisterCardMenu;
 
     public void SubmitButtonPressed()
     {
-        string cardCode = cardCodeInput.text;
-        string amountText = amountInput.text;
-        string notes = notesInput.text;
-
         // Check if card code is empty
-        if (string.IsNullOrEmpty(cardCode))
+        if (string.IsNullOrEmpty(cardCodeInput.text))
         {
             errorText.text = "Inserisci un codice carta";
             return;
         }
-        
-        // Check if card code contains only numbers
-        if (!IsCardCodeValid(cardCode))
+
+        float cardCode;
+        if (!float.TryParse(cardCodeInput.text, out cardCode))
         {
             errorText.text = "Il codice carta deve contenere solo numeri";
             return;
         }
 
         // Check if amount is empty or not a valid number
-        if (string.IsNullOrEmpty(amountText) || !IsAmountValid(amountText, out float amount))
+        if (string.IsNullOrEmpty(amountInput.text) || !IsAmountValid(amountInput.text))
         {
             errorText.text = "Ricontrolla che la somma in euro non sia vuota o invalida";
             return;
         }
 
-        // Check if the card code already exists
-        if (CardCodeExists(cardCode))
+        float amount;
+        if (!float.TryParse(amountInput.text, out amount))
         {
-            errorText.text = "Il codice inserito esiste gia nel database";
+            errorText.text = "Ricontrolla che la somma in euro sia un numero valido";
+            return;
+        }
+        
+        if (string.IsNullOrEmpty(fromInput.text))
+        {
+            errorText.text = "Inserisci nome di chi aquista";
+            return;
+        }
+        
+        if (string.IsNullOrEmpty(toInput.text))
+        {
+            errorText.text = "Inserisci nome di chi riceve";
             return;
         }
 
@@ -55,8 +62,9 @@ public class CardSubmission : MonoBehaviour
         {
             CardCode = cardCode,
             Amount = amount,
-            Notes = notes,
-            DateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            From = fromInput.text,
+            To = toInput.text,
+            DateTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm") // Modified
         };
 
         // Save the card to a text file
@@ -65,37 +73,32 @@ public class CardSubmission : MonoBehaviour
         // Optionally, reset input fields or perform other actions after submission
         ResetInputFields();
         errorText.text = "Carta caricata";
-
     }
-    
-    private bool IsAmountValid(string amountText, out float amount)
+
+    private bool IsAmountValid(string amountText)
     {
         // Check if the amount contains only digits or a single dot
-        if (float.TryParse(amountText, out amount))
-        {
-            string[] splitAmount = amountText.Split('.');
-            return splitAmount.Length <= 2 && splitAmount.All(s => s.All(char.IsDigit));
-        }
+        string[] splitAmount = amountText.Split('.');
+        return splitAmount.Length <= 2 && splitAmount.All(s => s.All(char.IsDigit));
+    }
 
-        return false;
-    }
-    private bool IsCardCodeValid(string cardCode)
-    {
-        // Check if the card code contains only numeric characters
-        return cardCode.All(char.IsDigit);
-    }
     private bool CardCodeExists(string cardCode)
     {
         // Load existing cards from the text file and check if the card code already exists
         List<CardModel> existingCards = LoadCardsFromTxt();
-        return existingCards.Exists(c => c.CardCode == cardCode);
+        float parsedCardCode;
+        if (float.TryParse(cardCode, out parsedCardCode))
+        {
+            return existingCards.Exists(c => c.CardCode == parsedCardCode);
+        }
+        return false;
     }
 
     private List<CardModel> LoadCardsFromTxt()
     {
         List<CardModel> cards = new List<CardModel>();
 
-        string fileName = "FileCarte.txt"; 
+        string fileName = "FileCarte.txt";
         string filePath = Path.Combine(Application.dataPath, "..", fileName);
         if (File.Exists(filePath))
         {
@@ -103,13 +106,19 @@ public class CardSubmission : MonoBehaviour
             foreach (string line in lines)
             {
                 string[] values = line.Split('|');
-                cards.Add(new CardModel
+                float cardCode;
+                float amount;
+                if (float.TryParse(values[0], out cardCode) && float.TryParse(values[1], out amount))
                 {
-                    CardCode = values[0],
-                    Amount = float.Parse(values[1]),
-                    Notes = values[2],
-                    DateTime = values[3]
-                });
+                    cards.Add(new CardModel
+                    {
+                        CardCode = cardCode,
+                        Amount = amount,
+                        DateTime = values[4], 
+                        From = values[2],
+                        To = values[3],
+                    });
+                }
             }
         }
 
@@ -118,33 +127,50 @@ public class CardSubmission : MonoBehaviour
 
     private void SaveCardToTxt(CardModel card)
     {
-        string fileName = "FileCarte.txt"; 
+        string fileName = "FileCarte.txt";
         string filePath = Path.Combine(Application.dataPath, "..", fileName);
-        if (String.IsNullOrEmpty(card.Notes))
+        // Check if the file exists and is not empty
+        if (!File.Exists(filePath))
         {
-            card.Notes = "Nessuna nota";
+            string line =$"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}";
+            File.WriteAllText(filePath, line);
         }
-        using (StreamWriter writer = File.AppendText(filePath))
+        else
         {
-            writer.WriteLine($"{card.CardCode}|{card.Amount}|{card.Notes}|{card.DateTime}");
+            // If the file exists and is not empty, append the card information
+            using (StreamWriter writer = File.AppendText(filePath))
+            {
+                writer.WriteLine($"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}");
+            }
         }
+        
     }
 
     private void ResetInputFields()
     {
         cardCodeInput.text = "";
         amountInput.text = "";
-        notesInput.text = "";
+        fromInput.text = ""; 
+        toInput.text = ""; 
+        errorText.text = "";
+    }
+
+    public void Cancel()
+    {
+        MainMenu.SetActive(true);
+        RegisterCardMenu.SetActive(false);
+        ResetInputFields();
     }
 }
 
 [Serializable]
 public class CardModel
 {
-    public string CardCode;
+    public float CardCode;
     public float Amount;
-    public string Notes;
     public string DateTime;
+    public string From;
+    public string To;
 }
 
 
