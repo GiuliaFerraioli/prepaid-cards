@@ -50,7 +50,7 @@ public void InstantiateCardElementsFromFile()
                     {
                         // Instantiate the card element prefab
                         GameObject cardElement = Instantiate(cardElementPrefab, Vector3.zero, Quaternion.identity);
-                        cardElement.transform.parent = ContentParent.transform;
+                        cardElement.transform.SetParent(ContentParent.transform);
 
                         // Assuming CardElement script is attached to the cardElementPrefab
                         CardElement cardElementScript = cardElement.GetComponent<CardElement>();
