@@ -3,11 +3,11 @@ using TMPro;
 
 public class CardElement : MonoBehaviour
 {
-    public TextMeshProUGUI cardCodeText;
-    public TextMeshProUGUI amountText;
-    public TextMeshProUGUI dateText;
-    public TextMeshProUGUI fromText; 
-    public TextMeshProUGUI toText;
+    public TMP_InputField cardCodeText;
+    public TMP_InputField amountText;
+    public TMP_InputField dateText;
+    public TMP_InputField fromText; 
+    public TMP_InputField toText;
 
     public void SetCardInfo(float cardCode, float amount, string date, string from, string to) 
     {
