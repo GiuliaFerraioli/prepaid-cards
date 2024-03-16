@@ -90,7 +90,7 @@ public class CardSubmission : MonoBehaviour
         return splitAmount.Length <= 2 && splitAmount.All(s => s.All(char.IsDigit));
     }
 
-    private List<CardModel> LoadCardsFromTxt()
+    public List<CardModel> LoadCardsFromTxt()
     {
         List<CardModel> cards = new List<CardModel>();
 

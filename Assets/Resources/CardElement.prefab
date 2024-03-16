@@ -682,7 +682,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3029411777391247134}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2316990161163978032}
+        m_TargetAssemblyTypeName: UpdateCardPrice, Assembly-CSharp
+        m_MethodName: CancelCardElement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1367047819792650085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1886,7 +1898,7 @@ GameObject:
   - component: {fileID: 3155743485824266511}
   - component: {fileID: 823844071049225292}
   - component: {fileID: 2672765133262183070}
-  - component: {fileID: 3222423537598290429}
+  - component: {fileID: 8931377462849638150}
   m_Layer: 5
   m_Name: UpdateButton
   m_TagString: Untagged
@@ -1953,7 +1965,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3222423537598290429
+--- !u!114 &8931377462849638150
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1962,7 +1974,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3415076236408139751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1994,9 +2006,25 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2672765133262183070}
-  m_OnClick:
+  toggleTransition: 1
+  graphic: {fileID: 0}
+  m_Group: {fileID: 0}
+  onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2316990161163978032}
+        m_TargetAssemblyTypeName: UpdateCardPrice, Assembly-CSharp
+        m_MethodName: ChangeAmount
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8931377462849638150}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Toggle, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_IsOn: 0
 --- !u!1 &3511863043649286128
 GameObject:
   m_ObjectHideFlags: 0
@@ -3087,6 +3115,7 @@ GameObject:
   - component: {fileID: 8952673237284390397}
   - component: {fileID: -326145353561540533}
   - component: {fileID: 4743833307836055584}
+  - component: {fileID: 2316990161163978032}
   m_Layer: 5
   m_Name: CardElement
   m_TagString: Untagged
@@ -3147,6 +3176,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6593433524855707828}
   m_CullTransparentMesh: 1
+--- !u!114 &2316990161163978032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6593433524855707828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8233c28fc01c1446af8c3253d2bb630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  euroInput: {fileID: 118791184061245597}
+  cardNumber: {fileID: 3131235785310824314}
 --- !u!1 &6878376805137252527
 GameObject:
   m_ObjectHideFlags: 0

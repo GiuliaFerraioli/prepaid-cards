@@ -8,7 +8,6 @@ public class CardElement : MonoBehaviour
     public TMP_InputField dateText;
     public TMP_InputField fromText; 
     public TMP_InputField toText;
-
     public void SetCardInfo(float cardCode, float amount, string date, string from, string to) 
     {
         cardCodeText.text = cardCode.ToString();
