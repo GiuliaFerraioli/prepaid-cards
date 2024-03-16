@@ -51,6 +51,19 @@ public class CardSubmission : MonoBehaviour
             errorText.text = "Il codice inserito esiste già nel database";
             return;
         }
+        
+        
+        if (!IsInputValid(fromInput.text))
+        {
+            errorText.text = "Inserisci nome di chi ha acquistato";
+            return;
+        }
+        
+        if (!IsInputValid(toInput.text))
+        {
+            errorText.text = "Inserisci nome del ricevente";
+            return;
+        }
 
         // Create a CardModel object
         CardModel card = new CardModel
@@ -88,6 +101,12 @@ public class CardSubmission : MonoBehaviour
         // Check if the amount contains only digits or a single dot
         string[] splitAmount = amountText.Split('.');
         return splitAmount.Length <= 2 && splitAmount.All(s => s.All(char.IsDigit));
+    }
+
+    private bool IsInputValid(string inputText)
+    {
+        // Check if the input contains only letters
+        return !string.IsNullOrEmpty(inputText) && inputText.All(char.IsLetter);
     }
 
     public List<CardModel> LoadCardsFromTxt()
