@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 
 public class MainMenuController : MonoBehaviour
 {
     public GameObject ContentParent;
     private Dictionary<string, GameObject> instantiatedCardElements = new Dictionary<string, GameObject>();
-
+    public TMP_InputField cardNumberInput;
+    private string previousCardNumber = "";
     public void OnEnable()
     {
         InstantiateCardElementsFromFile();
@@ -74,5 +76,30 @@ public void InstantiateCardElementsFromFile()
     }
 
 }
+
+    public void FilterCardElements()
+    {
+        string cardNumber = cardNumberInput.text;
+        
+        if (Input.GetKeyDown(KeyCode.Backspace) && string.IsNullOrEmpty(cardNumber))
+        {
+            foreach (var kvp in instantiatedCardElements)
+            {
+                kvp.Value.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (var kvp in instantiatedCardElements)
+            {
+                string cardCode = kvp.Key;
+                GameObject cardElement = kvp.Value;
+                
+                cardElement.SetActive(cardCode.Equals(cardNumber));
+            }
+        }
+
+        previousCardNumber = cardNumber;
+    }
 
 }
