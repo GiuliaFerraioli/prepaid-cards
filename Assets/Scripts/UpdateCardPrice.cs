@@ -10,6 +10,8 @@ public class UpdateCardPrice : MonoBehaviour
     public TMP_InputField euroInput;
     public TMP_InputField cardNumber;
 
+    public TMP_InputField notesInput;
+
     private CardSubmission cardSubmission;
 
     private void Start()
@@ -46,7 +48,7 @@ public class UpdateCardPrice : MonoBehaviour
             {
                 foreach (CardModel card in existingCards)
                 {
-                    writer.WriteLine($"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}");
+                    writer.WriteLine($"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}|{card.Payment}|{card.Notes}");
                 }
             }
         }
@@ -58,19 +60,21 @@ public class UpdateCardPrice : MonoBehaviour
         {
             toggle.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Salva";
             euroInput.interactable = true;
+            notesInput.interactable = true;
 
         }
         else
         {
             toggle.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Aggiorna";
             euroInput.interactable = false;
+            notesInput.interactable = false;
             
-            SaveNewEuroAmountToTxt(euroInput.text);
+            SaveNewEuroAmountToTxt(euroInput.text, notesInput.text);
             
         }
     }
     
-    private void SaveNewEuroAmountToTxt(string newAmount)
+    private void SaveNewEuroAmountToTxt(string newAmount, string notes)
     {
         // Get the entered card number from the input field
         string updatedCardNumber = cardNumber.text;
@@ -85,6 +89,7 @@ public class UpdateCardPrice : MonoBehaviour
         {
             // Update the euro amount
             cardToUpdate.Amount = float.Parse(newAmount);
+            cardToUpdate.Notes = notes;
 
             // Rewrite the entire file with the updated card information
             string fileName = "FileCarte.txt";
@@ -94,7 +99,7 @@ public class UpdateCardPrice : MonoBehaviour
             {
                 foreach (CardModel card in existingCards)
                 {
-                    writer.WriteLine($"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}");
+                    writer.WriteLine($"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}|{card.Payment}|{card.Notes}");
                 }
             }
         }

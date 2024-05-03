@@ -9,8 +9,11 @@ public class CardSubmission : MonoBehaviour
 {
     public TMP_InputField cardCodeInput;
     public TMP_InputField amountInput;
-    public TMP_InputField fromInput; // Added
-    public TMP_InputField toInput; // Added
+    public TMP_InputField fromInput; 
+    public TMP_InputField toInput; 
+    public TMP_InputField paymentInput;
+    public TMP_InputField notesInput;
+
     public TextMeshProUGUI errorText;
     public GameObject MainMenu;
     public GameObject RegisterCardMenu;
@@ -65,6 +68,13 @@ public class CardSubmission : MonoBehaviour
             return;
         }
 
+        if (!IsInputValid(paymentInput.text))
+        {
+            errorText.text = "Inserisci metodo di pagamento";
+            return;
+        }
+
+
         // Create a CardModel object
         CardModel card = new CardModel
         {
@@ -72,7 +82,9 @@ public class CardSubmission : MonoBehaviour
             Amount = amount,
             From = fromInput.text,
             To = toInput.text,
-            DateTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm")
+            DateTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
+            Payment = paymentInput.text,
+            Notes = notesInput.text
         };
 
         // Save the card to a text file
@@ -106,7 +118,7 @@ public class CardSubmission : MonoBehaviour
     private bool IsInputValid(string inputText)
     {
         // Check if the input contains only letters
-        return !string.IsNullOrEmpty(inputText) && inputText.All(char.IsLetter);
+        return !string.IsNullOrEmpty(inputText) && inputText.All(c=> char.IsLetter(c) || char.IsWhiteSpace(c));
     }
 
     public List<CardModel> LoadCardsFromTxt()
@@ -132,6 +144,8 @@ public class CardSubmission : MonoBehaviour
                         DateTime = values[4], 
                         From = values[2],
                         To = values[3],
+                        Payment = values[5],
+                        Notes = values[6]
                     });
                 }
             }
@@ -147,7 +161,7 @@ public class CardSubmission : MonoBehaviour
         // Check if the file exists and is not empty
         if (!File.Exists(filePath))
         {
-            string line =$"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}";
+            string line =$"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}|{card.Payment}|{card.Notes}";
             File.WriteAllText(filePath, line);
         }
         else
@@ -155,7 +169,7 @@ public class CardSubmission : MonoBehaviour
             // If the file exists and is not empty, append the card information
             using (StreamWriter writer = File.AppendText(filePath))
             {
-                writer.WriteLine($"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}");
+                writer.WriteLine($"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}|{card.Payment}|{card.Notes}");
             }
         }
         
@@ -168,6 +182,8 @@ public class CardSubmission : MonoBehaviour
         fromInput.text = ""; 
         toInput.text = ""; 
         errorText.text = "";
+        paymentInput.text = "";
+        notesInput.text = "";
     }
 
     public void Cancel()
@@ -186,6 +202,9 @@ public class CardModel
     public string DateTime;
     public string From;
     public string To;
+    public string Payment;
+
+    public string Notes;
 }
 
 

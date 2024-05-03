@@ -41,6 +41,8 @@ public void InstantiateCardElementsFromFile()
                 string date = values[4];
                 string from = values[2];
                 string to = values[3];
+                string payment = values[5];
+                string notes = values[6];
 
                 // Check if the card element has already been instantiated
                 if (!instantiatedCardElements.ContainsKey(values[0]))
@@ -59,7 +61,7 @@ public void InstantiateCardElementsFromFile()
                         if (cardElementScript != null)
                         {
                             // Set the card information in the CardElement script
-                            cardElementScript.SetCardInfo(cardCode, amount, date, from, to);
+                            cardElementScript.SetCardInfo(cardCode, amount, date, from, to, payment, notes);
                         }
                         else
                         {
