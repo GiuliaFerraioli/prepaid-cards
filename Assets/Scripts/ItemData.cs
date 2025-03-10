@@ -4,13 +4,14 @@
  * Licensed under MIT (https://github.com/setchi/FancyScrollView/blob/master/LICENSE)
  */
 
-using System;
 
-namespace UnityEngine.UI.Extensions.Examples.FancyScrollViewExample03
+class ItemData
 {
-    class Context
+    public string Message { get; }
+
+    public ItemData(string message)
     {
-        public int SelectedIndex = -1;
-        public Action<int> OnCellClicked;
+        Message = message;
     }
 }
+
