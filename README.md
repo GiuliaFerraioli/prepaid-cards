@@ -1,1 +1,3 @@
-Simple console app where the user can track gift cards. There is a interface to add a new card, where the user can can add a gift card number, the amount in euro loaded on it, the person who is buying it and the person who will receive it. The main menu shows a list of cards, the user can remove it or edit the euro amount on each. The cards details are saved and retrieved from a text file.
+# Prepaid cards
+
+A simple console application for tracking gift cards. Users can add new gift cards by entering details such as the card number, the amount in euros, the buyer, and the recipient. The main menu displays a list of all stored gift cards, allowing users to edit the balance or remove cards as needed. All card details are saved and retrieved from a text file, ensuring data persistence between sessions.
