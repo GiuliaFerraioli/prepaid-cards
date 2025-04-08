@@ -10,7 +10,7 @@ using UnityEngine.UI.Extensions;
 using UnityEngine.UI.Extensions.EasingCore;
 
 
-class ScrollView : FancyScrollView<ItemData, Context>
+class ScrollView : FancyScrollView<Entry, Context>
 {
     [SerializeField] Scroller scroller = default;
     [SerializeField] GameObject cellPrefab = default;
@@ -38,10 +38,12 @@ class ScrollView : FancyScrollView<ItemData, Context>
         Refresh();
     }
 
-    public void UpdateData(IList<ItemData> items)
+    public void UpdateData(IList<Entry> items)
     {
         UpdateContents(items);
         scroller.SetTotalCount(items.Count);
+        Debug.Log($"Updating ScrollView with {items.Count} items.");
+
     }
 
     public void SelectCell(int index)

@@ -13,17 +13,16 @@ class Example03 : MonoBehaviour
     [SerializeField] ScrollView scrollView = default;
 
 
-    void Start()
+    void Awake()
     {
         EntriesJsonManager.Instance.entriesLoaded += PopulateScrollview;
-
     }
 
     private void PopulateScrollview(bool loaded)
     {
+        var entries = EntriesJsonManager.Instance.GetEntries();
 
-        var array = new ItemData[EntriesJsonManager.Instance.GetEntriesCount()];
-        scrollView.UpdateData(array);
+        scrollView.UpdateData(entries);
         scrollView.SelectCell(0);
     }
 }

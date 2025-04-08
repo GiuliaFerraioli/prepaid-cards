@@ -9,11 +9,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
-class Cell : FancyCell<ItemData, Context>
+class Cell : FancyCell<Entry, Context>
 {
     [SerializeField] Animator animator = default;
     [SerializeField] Text message = default;
-    [SerializeField] Text messageLarge = default;
+    [SerializeField] Text sum = default;
     [SerializeField] Image image = default;
     [SerializeField] Image imageLarge = default;
     [SerializeField] Button button = default;
@@ -28,10 +28,11 @@ class Cell : FancyCell<ItemData, Context>
         button.onClick.AddListener(() => Context.OnCellClicked?.Invoke(Index));
     }
 
-    public override void UpdateContent(ItemData itemData)
+    public override void UpdateContent(Entry entry)
     {
-        message.text = itemData.Message;
-        messageLarge.text = Index.ToString();
+        message.text = entry.amount.ToString();
+        //sum.text = entry.amount.ToString();
+        // messageLarge.text = Index.ToString();
 
         var selected = Context.SelectedIndex == Index;
         imageLarge.color = image.color = selected
