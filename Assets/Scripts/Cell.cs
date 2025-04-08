@@ -5,6 +5,8 @@
  */
 
 
+using TMPro;
+using Unity.VisualScripting.AssemblyQualifiedNameParser;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -12,8 +14,14 @@ using UnityEngine.UI.Extensions;
 class Cell : FancyCell<Entry, Context>
 {
     [SerializeField] Animator animator = default;
-    [SerializeField] Text message = default;
-    [SerializeField] Text sum = default;
+    [SerializeField] Text cardCode = default;
+    [SerializeField] TextMeshProUGUI amount = default;
+    [SerializeField] TextMeshProUGUI date = default;
+    [SerializeField] TextMeshProUGUI fromClient = default;
+    [SerializeField] TextMeshProUGUI toClient = default;
+    [SerializeField] TMP_Dropdown payment = default;
+    [SerializeField] TextMeshProUGUI phoneNumber = default;
+    [SerializeField] TextMeshProUGUI notes = default;
     [SerializeField] Image image = default;
     [SerializeField] Image imageLarge = default;
     [SerializeField] Button button = default;
@@ -30,9 +38,14 @@ class Cell : FancyCell<Entry, Context>
 
     public override void UpdateContent(Entry entry)
     {
-        message.text = entry.amount.ToString();
-        //sum.text = entry.amount.ToString();
-        // messageLarge.text = Index.ToString();
+        cardCode.text = entry.cardCode.ToString();
+        amount.text = entry.amount.ToString();
+        date.text = entry.date.ToString("dd/MM/yyyy");
+        fromClient.text = entry.fromClient.ToString();
+        toClient.text = entry.toClient.ToString();
+        payment.value = (int)entry.payment;
+        phoneNumber.text = entry.phoneNumber.ToString();
+        notes.text = entry.notes.ToString();
 
         var selected = Context.SelectedIndex == Index;
         imageLarge.color = image.color = selected

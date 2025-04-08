@@ -4,6 +4,7 @@ using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
+using UnityEngine.UI.Extensions.Examples;
 
 public class EntriesJsonManager : MonoBehaviour
 {
@@ -71,21 +72,34 @@ public class EntriesJsonManager : MonoBehaviour
                     //     Debug.Log("hello");
                     //     continue; // Skip this iteration and move to the next line
                     // }
+                    Payments paymentEnum;
+                    try
+                    {
+                        paymentEnum = (Payments)Enum.Parse(typeof(Payments), values[5].Replace(" ", ""), ignoreCase: true);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError($"Invalid payment type '{values[5]}' on line: {line}");
+                        continue;
+                    }
+
                     float amount = float.Parse(values[1]);
-                    string date = values[4];
-                    string from = values[2];
-                    string to = values[3];
+                    string date = values[2];
+                    string from = values[3];
+                    string to = values[4];
                     string payment = values[5];
-                    string notes = values[6];
+                    string phoneNumber = values[6];
+                    string notes = values[7];
                     var entry = new Entry
                     {
                         cardCode = int.Parse(values[0]),
                         amount = float.Parse(values[1]),
-                        date = DateTime.Parse(values[4]),
-                        fromClient = values[2],
-                        toClient = values[3],
-                        payment = Payments.Cash,
-                        notes = values[6]
+                        date = DateTime.Parse(values[2]),
+                        fromClient = values[3],
+                        toClient = values[4],
+                        payment = paymentEnum,
+                        phoneNumber = values[6],
+                        notes = values[7]
 
                     };
                     entries.Add(entry);

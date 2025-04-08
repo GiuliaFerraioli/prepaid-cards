@@ -8,6 +8,6 @@ public struct Entry
     public string fromClient;
     public string toClient;
     public Payments payment;
-    public int phoneNumber;
+    public string phoneNumber;
     public string notes;
 }
