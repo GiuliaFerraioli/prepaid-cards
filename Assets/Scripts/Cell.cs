@@ -15,7 +15,7 @@ class Cell : FancyCell<Entry, Context>
 {
     [SerializeField] Animator animator = default;
     [SerializeField] Text cardCode = default;
-    [SerializeField] TextMeshProUGUI amount = default;
+    [SerializeField] TMP_InputField amount = default;
     [SerializeField] TextMeshProUGUI date = default;
     [SerializeField] TextMeshProUGUI fromClient = default;
     [SerializeField] TextMeshProUGUI toClient = default;
@@ -25,6 +25,7 @@ class Cell : FancyCell<Entry, Context>
     [SerializeField] Image image = default;
     [SerializeField] Image imageLarge = default;
     [SerializeField] Button button = default;
+    [SerializeField] Button buttonEditEntry = default;
 
     static class AnimatorHash
     {
@@ -34,6 +35,8 @@ class Cell : FancyCell<Entry, Context>
     void Start()
     {
         button.onClick.AddListener(() => Context.OnCellClicked?.Invoke(Index));
+        amount.interactable = false;
+
     }
 
     public override void UpdateContent(Entry entry)
@@ -51,6 +54,17 @@ class Cell : FancyCell<Entry, Context>
         imageLarge.color = image.color = selected
             ? new Color32(0, 255, 255, 100)
             : new Color32(255, 255, 255, 77);
+
+        buttonEditEntry.gameObject.SetActive(selected);
+
+    }
+
+    private void CellSelected(bool selected)
+    {
+        if (selected)
+        {
+
+        }
     }
 
     public override void UpdatePosition(float position)
