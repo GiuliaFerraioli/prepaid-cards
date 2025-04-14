@@ -4,13 +4,27 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
 
-public class CardSubmission : MonoBehaviour
+public class CardSubmissionManager : MonoBehaviour
 {
+    public static CardSubmissionManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     public TMP_InputField cardCodeInput;
     public TMP_InputField amountInput;
-    public TMP_InputField fromInput; 
-    public TMP_InputField toInput; 
+    public TMP_InputField fromInput;
+    public TMP_InputField toInput;
     public TMP_InputField paymentInput;
     public TMP_InputField notesInput;
 
@@ -18,7 +32,7 @@ public class CardSubmission : MonoBehaviour
     public GameObject MainMenu;
     public GameObject RegisterCardMenu;
 
-    public void SubmitButtonPressed()
+    public void SaveButtonPressed()
     {
         // Check if card code is empty
         if (string.IsNullOrEmpty(cardCodeInput.text))
@@ -54,14 +68,14 @@ public class CardSubmission : MonoBehaviour
             errorText.text = "Il codice inserito esiste già nel database";
             return;
         }
-        
-        
+
+
         if (!IsInputValid(fromInput.text))
         {
             errorText.text = "Inserisci nome di chi ha acquistato";
             return;
         }
-        
+
         if (!IsInputValid(toInput.text))
         {
             errorText.text = "Inserisci nome del ricevente";
@@ -118,7 +132,7 @@ public class CardSubmission : MonoBehaviour
     private bool IsInputValid(string inputText)
     {
         // Check if the input contains only letters
-        return !string.IsNullOrEmpty(inputText) && inputText.All(c=> char.IsLetter(c) || char.IsWhiteSpace(c));
+        return !string.IsNullOrEmpty(inputText) && inputText.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
     }
 
     public List<CardModel> LoadCardsFromTxt()
@@ -141,7 +155,7 @@ public class CardSubmission : MonoBehaviour
                     {
                         CardCode = cardCode,
                         Amount = amount,
-                        DateTime = values[4], 
+                        DateTime = values[4],
                         From = values[2],
                         To = values[3],
                         Payment = values[5],
@@ -161,7 +175,7 @@ public class CardSubmission : MonoBehaviour
         // Check if the file exists and is not empty
         if (!File.Exists(filePath))
         {
-            string line =$"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}|{card.Payment}|{card.Notes}";
+            string line = $"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}|{card.Payment}|{card.Notes}";
             File.WriteAllText(filePath, line);
         }
         else
@@ -172,15 +186,15 @@ public class CardSubmission : MonoBehaviour
                 writer.WriteLine($"{card.CardCode}|{card.Amount}|{card.From}|{card.To}|{card.DateTime}|{card.Payment}|{card.Notes}");
             }
         }
-        
+
     }
 
     private void ResetInputFields()
     {
         cardCodeInput.text = "";
         amountInput.text = "";
-        fromInput.text = ""; 
-        toInput.text = ""; 
+        fromInput.text = "";
+        toInput.text = "";
         errorText.text = "";
         paymentInput.text = "";
         notesInput.text = "";

@@ -12,12 +12,12 @@ public class UpdateCardPrice : MonoBehaviour
 
     public TMP_InputField notesInput;
 
-    private CardSubmission cardSubmission;
+
 
     private void Start()
     {
         GameObject cardSubmissionObject = GameObject.Find("UIManager");
-        cardSubmission = cardSubmissionObject.GetComponent<CardSubmission>();
+
 
     }
 
@@ -26,11 +26,11 @@ public class UpdateCardPrice : MonoBehaviour
         RemoveCardFromTxt(cardNumber.text);
         Destroy(this.gameObject);
     }
-    
+
     private void RemoveCardFromTxt(string cardNumberToRemove)
     {
         // Load existing cards from the text file
-        List<CardModel> existingCards = cardSubmission.LoadCardsFromTxt();
+        List<CardModel> existingCards = CardSubmissionManager.Instance.LoadCardsFromTxt();
 
         // Find the index of the card to remove
         int indexToRemove = existingCards.FindIndex(c => c.CardCode.ToString() == cardNumberToRemove);
@@ -68,19 +68,19 @@ public class UpdateCardPrice : MonoBehaviour
             toggle.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Aggiorna";
             euroInput.interactable = false;
             notesInput.interactable = false;
-            
+
             SaveNewEuroAmountToTxt(euroInput.text, notesInput.text);
-            
+
         }
     }
-    
+
     private void SaveNewEuroAmountToTxt(string newAmount, string notes)
     {
         // Get the entered card number from the input field
         string updatedCardNumber = cardNumber.text;
 
         // Load existing cards from the text file
-        List<CardModel> existingCards = cardSubmission.LoadCardsFromTxt();
+        List<CardModel> existingCards = CardSubmissionManager.Instance.LoadCardsFromTxt();
 
         // Find the card model corresponding to the entered card number
         CardModel cardToUpdate = existingCards.Find(c => c.CardCode.ToString() == updatedCardNumber);
@@ -104,5 +104,5 @@ public class UpdateCardPrice : MonoBehaviour
             }
         }
     }
-    
+
 }

@@ -16,12 +16,12 @@ class Cell : FancyCell<Entry, Context>
     [SerializeField] Animator animator = default;
     [SerializeField] Text cardCode = default;
     [SerializeField] TMP_InputField amount = default;
-    [SerializeField] TextMeshProUGUI date = default;
-    [SerializeField] TextMeshProUGUI fromClient = default;
-    [SerializeField] TextMeshProUGUI toClient = default;
+    [SerializeField] TMP_InputField date = default;
+    [SerializeField] TMP_InputField fromClient = default;
+    [SerializeField] TMP_InputField toClient = default;
     [SerializeField] TMP_Dropdown payment = default;
-    [SerializeField] TextMeshProUGUI phoneNumber = default;
-    [SerializeField] TextMeshProUGUI notes = default;
+    [SerializeField] TMP_InputField phoneNumber = default;
+    [SerializeField] TMP_InputField notes = default;
     [SerializeField] Image image = default;
     [SerializeField] Image imageLarge = default;
     [SerializeField] Button button = default;
