@@ -8,6 +8,7 @@ public class EditEntryManager : MonoBehaviour
 {
     [SerializeField] Button cancel = default;
     [SerializeField] Button save = default;
+    [SerializeField] Button edit = default;
     [SerializeField] TMP_InputField amount = default;
     [SerializeField] TMP_InputField date = default;
     [SerializeField] TMP_InputField fromClient = default;
@@ -15,49 +16,79 @@ public class EditEntryManager : MonoBehaviour
     [SerializeField] TMP_Dropdown payment = default;
     [SerializeField] TMP_InputField phoneNumber = default;
     [SerializeField] TMP_InputField notes = default;
+
     void OnEnable()
     {
-        cancel.gameObject.SetActive(false);
-        save.gameObject.SetActive(false);
+        SetActive(cancel, false);
+        SetActive(save, false);
+        SetActive(edit, true);
     }
 
     void OnDisable()
     {
-        cancel.gameObject.SetActive(false);
-        save.gameObject.SetActive(false);
+        SetActive(cancel, false);
+        SetActive(save, false);
+        SetActive(edit, true);
     }
 
     public void OnEditClicked()
     {
-        cancel.gameObject.SetActive(true);
-        save.gameObject.SetActive(true);
+        SetActive(cancel, true);
+        SetActive(save, true);
+        SetActive(edit, false);
         SetInputsInteractable(true);
     }
 
     public void OnSaveClicked()
     {
-        cancel.gameObject.SetActive(false);
+        SetActive(cancel, false);
+        SetActive(save, false);
+        SetActive(edit, true);
         SetInputsInteractable(false);
-        save.gameObject.SetActive(false);
     }
 
     public void OnCancelClicked()
     {
-        save.gameObject.SetActive(false);
+        SetActive(cancel, false);
+        SetActive(save, false);
+        SetActive(edit, true);
         SetInputsInteractable(false);
-        cancel.gameObject.SetActive(false);
+
     }
 
     private void SetInputsInteractable(bool interactable)
     {
-        amount.interactable = interactable;
-        date.interactable = interactable;
-        fromClient.interactable = interactable;
-        toClient.interactable = interactable;
-        payment.interactable = interactable;
-        phoneNumber.interactable = interactable;
-        notes.interactable = interactable;
+        if (amount != null) amount.interactable = interactable;
+        if (date != null) date.interactable = interactable;
+        if (fromClient != null) fromClient.interactable = interactable;
+        if (toClient != null) toClient.interactable = interactable;
+        if (payment != null) payment.interactable = interactable;
+        if (phoneNumber != null) phoneNumber.interactable = interactable;
+        if (notes != null) notes.interactable = interactable;
 
     }
 
+    private void SetActive(Button button, bool isActive)
+    {
+        if (button != null && button.gameObject != null)
+        {
+            button.gameObject.SetActive(isActive);
+        }
+    }
+
+    private void SetActive(TMP_InputField button, bool isActive)
+    {
+        if (button != null && button.gameObject != null)
+        {
+            button.gameObject.SetActive(isActive);
+        }
+    }
+
+    private void SetActive(TMP_Dropdown button, bool isActive)
+    {
+        if (button != null && button.gameObject != null)
+        {
+            button.gameObject.SetActive(isActive);
+        }
+    }
 }
